@@ -1,229 +1,235 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <title>Nosso Livro</title>
+
 <style>
 
 body{
 margin:0;
-height:100vh;
-background:linear-gradient(135deg,#3b003b,#8b0000);
-font-family:Georgia,serif;
-color:white;
 overflow:hidden;
-display:flex;
-align-items:center;
-justify-content:center;
+font-family: "Georgia", serif;
+background: radial-gradient(circle at bottom,#200020,#000);
+color:white;
 }
 
-/* BOOK */
+/* estrelas */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* livro */
 
 .book{
-width:320px;
-height:420px;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:600px;
+height:400px;
 perspective:2000px;
-cursor:pointer;
 }
-
-.cover{
-width:100%;
-height:100%;
-background:linear-gradient(135deg,#6a0dad,#c4003a);
-border-radius:8px;
-position:absolute;
-transform-origin:left;
-transition:transform 1.5s;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-box-shadow:0 20px 40px rgba(0,0,0,0.4);
-}
-
-.cover h1{
-font-size:28px;
-margin:0;
-}
-
-.cover p{
-opacity:0.8;
-}
-
-.book.open .cover{
-transform:rotateY(-160deg);
-}
-
-/* SITE CONTENT */
-
-.site{
-position:absolute;
-width:90vw;
-height:90vh;
-background:linear-gradient(135deg,#5a005a,#a1002f);
-border-radius:10px;
-padding:40px;
-box-sizing:border-box;
-opacity:0;
-transform:scale(0.9);
-transition:1s;
-overflow:hidden;
-}
-
-.site.visible{
-opacity:1;
-transform:scale(1);
-}
-
-/* MENU */
-
-.menu{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
-.menu h2{
-margin:0;
-}
-
-.menu button{
-background:#ff2a6d;
-border:none;
-padding:10px 20px;
-color:white;
-border-radius:20px;
-cursor:pointer;
-}
-
-/* PAGE SYSTEM */
 
 .page{
-display:none;
-height:100%;
-}
-
-.page.active{
-display:block;
-}
-
-/* POEMS */
-
-.poem{
-max-width:600px;
-line-height:1.8;
-font-size:22px;
-margin-top:40px;
-animation:fadeUp 1.2s ease;
-}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(40px)}
-to{opacity:1;transform:translateY(0)}
-}
-
-/* NEXT BUTTON */
-
-.next{
 position:absolute;
-right:30px;
-bottom:30px;
-background:#ff2a6d;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#6a0dad,#b3003c);
+border-radius:10px;
+padding:50px;
+box-sizing:border-box;
+transform-origin:left;
+transition:1s;
+box-shadow:0 20px 40px rgba(0,0,0,0.6);
+}
+
+.page h1{
+margin-top:0;
+font-size:40px;
+}
+
+.page p{
+font-size:22px;
+line-height:1.6;
+}
+
+.page.flipped{
+transform:rotateY(-180deg);
+}
+
+/* botão */
+
+.controls{
+position:absolute;
+bottom:40px;
+width:100%;
+text-align:center;
+}
+
+button{
+background:#ff004c;
 border:none;
-padding:14px 25px;
-border-radius:25px;
+padding:15px 35px;
+border-radius:30px;
+font-size:18px;
 color:white;
-font-size:16px;
 cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+/* corações */
+
+.heart{
+position:fixed;
+font-size:18px;
+pointer-events:none;
+animation:fade 1s forwards;
+}
+
+@keyframes fade{
+0%{opacity:1; transform:scale(1);}
+100%{opacity:0; transform:scale(2);}
 }
 
 </style>
 </head>
+
 <body>
 
-<div class="book" id="book">
+<canvas id="stars"></canvas>
 
-<div class="cover">
-<h1>Nosso Livro</h1>
-<p>Clique para abrir</p>
+<div class="book">
+
+<div class="page" id="p1">
+<h1>Para Você ❤️</h1>
+<p>
+Este não é apenas um site.<br><br>
+É um pequeno livro que escrevi<br>
+para guardar tudo aquilo<br>
+que sinto por você.
+</p>
 </div>
 
-</div>
-
-<div class="site" id="site">
-
-<div class="menu">
-<h2>Nosso Livro</h2>
-<div>
-<button onclick="showPage(0)">Início</button>
-<button onclick="showPage(1)">Poemas</button>
-</div>
-</div>
-
-<div class="page active">
-<h1>Bem‑vinda ao nosso livro</h1>
-<p>Este site é um livro de poemas feito para você.</p>
-<p>Cada página guarda um pedaço do que sinto.</p>
-</div>
-
-<div class="page">
+<div class="page" id="p2">
 <h1>Poema 1</h1>
-<div class="poem">
-Nos teus olhos encontrei um lar.<br><br>
-No teu sorriso descobri
-um mundo inteiro.<br><br>
-Se o amor tivesse forma,
-teria exatamente o teu nome.
-</div>
+<p>
+Entre bilhões de estrelas<br>
+o universo escolheu você<br><br>
+
+para ser o motivo<br>
+de todos os meus versos.
+</p>
 </div>
 
-<button class="next" onclick="nextPage()">Próxima página →</button>
+<div class="page" id="p3">
+<h1>Poema 2</h1>
+<p>
+Se existir vida depois<br>
+quero te encontrar novamente.<br><br>
 
+Porque uma eternidade<br>
+ainda seria pouco<br>
+para te amar.
+</p>
+</div>
+
+<div class="page" id="p4">
+<h1>Para Sempre</h1>
+<p>
+Este livro nunca termina.<br><br>
+
+Porque cada dia ao seu lado<br>
+é uma nova página<br>
+da nossa história.
+</p>
+</div>
+
+</div>
+
+<div class="controls">
+<button onclick="nextPage()">Virar Página</button>
 </div>
 
 <script>
 
-const book=document.getElementById("book")
-const site=document.getElementById("site")
+/* virar páginas */
 
-book.addEventListener("click",()=>{
-
-book.classList.add("open")
-
-setTimeout(()=>{
-site.classList.add("visible")
-book.style.display="none"
-},1200)
-
-})
-
-const pages=document.querySelectorAll(".page")
-let current=0
-
-function showPage(i){
-
-pages[current].classList.remove("active")
-
-current=i
-
-pages[current].classList.add("active")
-
-}
+let page=1
 
 function nextPage(){
 
-pages[current].classList.remove("active")
+const p=document.getElementById("p"+page)
 
-current++
-
-if(current>=pages.length){
-current=0
+if(p){
+p.classList.add("flipped")
+page++
 }
 
-pages[current].classList.add("active")
-
 }
+
+/* estrelas */
+
+const canvas=document.getElementById("stars")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let stars=[]
+
+for(let i=0;i<200;i++){
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2
+})
+}
+
+function drawStars(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="white"
+
+stars.forEach(s=>{
+ctx.beginPath()
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2)
+ctx.fill()
+})
+
+requestAnimationFrame(drawStars)
+}
+
+drawStars()
+
+/* corações no mouse */
+
+document.addEventListener("mousemove",e=>{
+
+const heart=document.createElement("div")
+
+heart.className="heart"
+heart.innerHTML="❤"
+
+heart.style.left=e.clientX+"px"
+heart.style.top=e.clientY+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},1000)
+
+})
 
 </script>
 

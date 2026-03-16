@@ -1,194 +1,229 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Para o Amor da Minha Vida</title>
-
+<title>Nosso Livro</title>
 <style>
 
 body{
 margin:0;
-font-family: 'Georgia', serif;
-background: linear-gradient(135deg,#6a0dad,#b3003c);
+height:100vh;
+background:linear-gradient(135deg,#3b003b,#8b0000);
+font-family:Georgia,serif;
 color:white;
-text-align:center;
-overflow-x:hidden;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-/* título principal */
+/* BOOK */
 
-header{
-padding:80px 20px;
-animation: fadeIn 2s ease;
-}
-
-h1{
-font-size:50px;
-letter-spacing:3px;
-}
-
-/* poemas */
-
-.poema{
-max-width:700px;
-margin:80px auto;
-font-size:22px;
-line-height:1.8;
-opacity:0;
-transform:translateY(40px);
-transition:1s;
-}
-
-.poema.visible{
-opacity:1;
-transform:translateY(0);
-}
-
-/* corações flutuando */
-
-.heart{
-position:fixed;
-bottom:-50px;
-font-size:20px;
-animation: subir 8s linear infinite;
-opacity:0.6;
-}
-
-@keyframes subir{
-0%{
-transform:translateY(0);
-opacity:0;
-}
-50%{
-opacity:1;
-}
-100%{
-transform:translateY(-110vh);
-opacity:0;
-}
-}
-
-/* animação inicial */
-
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
-}
-
-/* botão */
-
-button{
-background:#ff004c;
-border:none;
-padding:15px 35px;
-font-size:18px;
-color:white;
-border-radius:30px;
+.book{
+width:320px;
+height:420px;
+perspective:2000px;
 cursor:pointer;
-transition:0.3s;
 }
 
-button:hover{
-transform:scale(1.1);
-background:#ff3366;
+.cover{
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#6a0dad,#c4003a);
+border-radius:8px;
+position:absolute;
+transform-origin:left;
+transition:transform 1.5s;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+box-shadow:0 20px 40px rgba(0,0,0,0.4);
 }
 
-footer{
-margin:100px 0;
-font-size:18px;
+.cover h1{
+font-size:28px;
+margin:0;
+}
+
+.cover p{
 opacity:0.8;
+}
+
+.book.open .cover{
+transform:rotateY(-160deg);
+}
+
+/* SITE CONTENT */
+
+.site{
+position:absolute;
+width:90vw;
+height:90vh;
+background:linear-gradient(135deg,#5a005a,#a1002f);
+border-radius:10px;
+padding:40px;
+box-sizing:border-box;
+opacity:0;
+transform:scale(0.9);
+transition:1s;
+overflow:hidden;
+}
+
+.site.visible{
+opacity:1;
+transform:scale(1);
+}
+
+/* MENU */
+
+.menu{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.menu h2{
+margin:0;
+}
+
+.menu button{
+background:#ff2a6d;
+border:none;
+padding:10px 20px;
+color:white;
+border-radius:20px;
+cursor:pointer;
+}
+
+/* PAGE SYSTEM */
+
+.page{
+display:none;
+height:100%;
+}
+
+.page.active{
+display:block;
+}
+
+/* POEMS */
+
+.poem{
+max-width:600px;
+line-height:1.8;
+font-size:22px;
+margin-top:40px;
+animation:fadeUp 1.2s ease;
+}
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+/* NEXT BUTTON */
+
+.next{
+position:absolute;
+right:30px;
+bottom:30px;
+background:#ff2a6d;
+border:none;
+padding:14px 25px;
+border-radius:25px;
+color:white;
+font-size:16px;
+cursor:pointer;
 }
 
 </style>
 </head>
-
 <body>
 
-<header>
-<h1>Para Você ❤️</h1>
-<p>Um livro de poemas feito para o amor da minha vida</p>
-<button onclick="mostrarPoema()">Clique para começar</button>
-</header>
+<div class="book" id="book">
 
-<div class="poema">
-<p>
-Nos teus olhos encontrei<br>
-um lugar onde posso morar.<br><br>
-
-No teu sorriso descobri<br>
-a paz que o mundo não sabe dar.<br><br>
-
-Se meus versos vivem hoje,<br>
-é porque você os ensinou a amar.
-</p>
+<div class="cover">
+<h1>Nosso Livro</h1>
+<p>Clique para abrir</p>
 </div>
 
-<div class="poema">
-<p>
-Se o tempo parar,<br>
-quero que pare em você.<br><br>
-
-Se o destino escolher,<br>
-quero que escolha nós dois.<br><br>
-
-Porque entre bilhões de estrelas,<br>
-foi você quem iluminou meu céu.
-</p>
 </div>
 
-<footer>
-Feito com amor 💜
-</footer>
+<div class="site" id="site">
+
+<div class="menu">
+<h2>Nosso Livro</h2>
+<div>
+<button onclick="showPage(0)">Início</button>
+<button onclick="showPage(1)">Poemas</button>
+</div>
+</div>
+
+<div class="page active">
+<h1>Bem-vinda ao nosso livro</h1>
+<p>Este site é um livro de poemas feito para você.</p>
+<p>Cada página guarda um pedaço do que sinto.</p>
+</div>
+
+<div class="page">
+<h1>Poema 1</h1>
+<div class="poem">
+Nos teus olhos encontrei um lar.<br><br>
+No teu sorriso descobri
+um mundo inteiro.<br><br>
+Se o amor tivesse forma,
+teria exatamente o teu nome.
+</div>
+</div>
+
+<button class="next" onclick="nextPage()">Próxima página →</button>
+
+</div>
 
 <script>
 
-/* revelar poemas ao rolar */
+const book=document.getElementById("book")
+const site=document.getElementById("site")
 
-function revelar(){
-const poemas=document.querySelectorAll(".poema")
+book.addEventListener("click",()=>{
 
-poemas.forEach(p=>{
-const topo=p.getBoundingClientRect().top
-if(topo<window.innerHeight-100){
-p.classList.add("visible")
-}
-})
-}
-
-window.addEventListener("scroll",revelar)
-
-/* botão inicial */
-
-function mostrarPoema(){
-window.scrollTo({
-top:window.innerHeight,
-behavior:"smooth"
-})
-}
-
-/* criar corações */
-
-function criarCoracao(){
-
-const heart=document.createElement("div")
-
-heart.classList.add("heart")
-
-heart.innerHTML="❤"
-
-heart.style.left=Math.random()*100+"vw"
-
-heart.style.animationDuration=(5+Math.random()*5)+"s"
-
-document.body.appendChild(heart)
+book.classList.add("open")
 
 setTimeout(()=>{
-heart.remove()
-},8000)
+site.classList.add("visible")
+book.style.display="none"
+},1200)
+
+})
+
+const pages=document.querySelectorAll(".page")
+let current=0
+
+function showPage(i){
+
+pages[current].classList.remove("active")
+
+current=i
+
+pages[current].classList.add("active")
 
 }
 
-setInterval(criarCoracao,600)
+function nextPage(){
+
+pages[current].classList.remove("active")
+
+current++
+
+if(current>=pages.length){
+current=0
+}
+
+pages[current].classList.add("active")
+
+}
 
 </script>
 
